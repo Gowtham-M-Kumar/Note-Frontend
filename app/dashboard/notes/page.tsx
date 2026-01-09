@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { notesAPI } from '@/lib/api';
 import type { Note } from '@/lib/types';
 import { Button } from '@/components/ui/button';
@@ -34,6 +35,16 @@ export default function NotesPage() {
 
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [expandModalOpen, setExpandModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredNotes = useMemo(() => {
+    if (!searchQuery.trim()) return notes;
+    const query = searchQuery.toLowerCase();
+    return notes.filter(note => 
+      note.title.toLowerCase().includes(query) || 
+      note.content.toLowerCase().includes(query)
+    );
+  }, [notes, searchQuery]);
 
   const {
     register,
@@ -139,8 +150,40 @@ export default function NotesPage() {
         style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
       <div className="relative z-10 p-8 pt-10 max-w-[2000px] mx-auto">
+        {/* Modern Search Bar */}
+        <div className="mb-10 max-w-2xl mx-auto">
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Search through your thoughts..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="block w-full pl-14 pr-5 py-5 bg-white border border-gray-100 rounded-[2.5rem] text-lg shadow-xl shadow-gray-100/50 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none placeholder:text-gray-300 font-medium"
+            />
+            {searchQuery && (
+              <button 
+                onClick={() => setSearchQuery('')}
+                className="absolute inset-y-0 right-5 flex items-center text-gray-400 hover:text-gray-600"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
+        </div>
+
         {notes.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-32 text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center justify-center py-32 text-center"
+          >
             <div className="w-24 h-24 bg-white rounded-3xl shadow-xl flex items-center justify-center mb-8 rotate-3">
               <FileText className="h-12 w-12 text-blue-500" />
             </div>
@@ -155,18 +198,42 @@ export default function NotesPage() {
             >
               Create your first note
             </Button>
-          </div>
+          </motion.div>
+        ) : filteredNotes.length === 0 ? (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-32"
+          >
+            <div className="text-6xl mb-6">🔍</div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">No matching notes</h3>
+            <p className="text-gray-500">Try searching for something else or clear the search.</p>
+          </motion.div>
         ) : (
-          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-6">
-            {notes.map((note) => (
-              <NotePin
-                key={note.id}
-                note={note}
-                onDelete={handleDeleteClick}
-                onExpand={handleExpandNote}
-              />
-            ))}
-          </div>
+          <motion.div 
+            layout
+            className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-6"
+          >
+            <AnimatePresence mode='popLayout'>
+              {filteredNotes.map((note) => (
+                <motion.div
+                  key={note.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
+                  transition={{ duration: 0.3 }}
+                  className="break-inside-avoid"
+                >
+                  <NotePin
+                    note={note}
+                    onDelete={handleDeleteClick}
+                    onExpand={handleExpandNote}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         )}
       </div>
 

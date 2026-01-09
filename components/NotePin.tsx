@@ -4,6 +4,7 @@ import { Note } from '@/lib/types';
 import { Clock, Edit, History, Trash2, Maximize2, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 
 interface NotePinProps {
   note: Note;
@@ -37,11 +38,12 @@ export default function NotePin({ note, onDelete, onExpand }: NotePinProps) {
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => onExpand?.(note)}
     >
-      <div
+      <motion.div
+        whileHover={{ y: -8, scale: 1.02 }}
         className={`
           relative bg-white rounded-2xl overflow-hidden border border-gray-100
-          transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1)
-          ${isHovered ? 'shadow-2xl -translate-y-2 border-gray-200' : 'shadow-sm border-gray-50'}
+          transition-shadow duration-300
+          ${isHovered ? 'shadow-2xl border-gray-200' : 'shadow-sm border-gray-50'}
         `}
       >
         {/* Subtle top accent bar */}
@@ -127,7 +129,7 @@ export default function NotePin({ note, onDelete, onExpand }: NotePinProps) {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
