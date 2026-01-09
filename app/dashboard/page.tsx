@@ -10,7 +10,6 @@ import { motion } from 'framer-motion';
 import { Plus, Clock, FileText, LayoutGrid } from 'lucide-react';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
 
 export default function DashboardHome() {
     const [hasNotes, setHasNotes] = useState<boolean | null>(null);

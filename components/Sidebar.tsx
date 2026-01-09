@@ -15,7 +15,6 @@ export default function Sidebar({ onCreateNote }: SidebarProps) {
   const { user, logout } = useAuth();
 
   const navItems = [
-    { icon: Home, label: 'Home', href: '/dashboard' },
     { icon: FileText, label: 'All Notes', href: '/dashboard/notes' },
   ];
 
