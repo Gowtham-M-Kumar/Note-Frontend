@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import NotePin from '@/components/NotePin';
-import { FileText, Clock } from 'lucide-react';
+import { FileText, Clock, Search } from 'lucide-react';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -40,8 +40,8 @@ export default function NotesPage() {
   const filteredNotes = useMemo(() => {
     if (!searchQuery.trim()) return notes;
     const query = searchQuery.toLowerCase();
-    return notes.filter(note => 
-      note.title.toLowerCase().includes(query) || 
+    return notes.filter(note =>
+      note.title.toLowerCase().includes(query) ||
       note.content.toLowerCase().includes(query)
     );
   }, [notes, searchQuery]);
@@ -166,7 +166,7 @@ export default function NotesPage() {
               className="block w-full pl-14 pr-5 py-5 bg-white border border-gray-100 rounded-[2.5rem] text-lg shadow-xl shadow-gray-100/50 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none placeholder:text-gray-300 font-medium"
             />
             {searchQuery && (
-              <button 
+              <button
                 onClick={() => setSearchQuery('')}
                 className="absolute inset-y-0 right-5 flex items-center text-gray-400 hover:text-gray-600"
               >
@@ -179,7 +179,7 @@ export default function NotesPage() {
         </div>
 
         {notes.length === 0 ? (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col items-center justify-center py-32 text-center"
@@ -200,17 +200,19 @@ export default function NotesPage() {
             </Button>
           </motion.div>
         ) : filteredNotes.length === 0 ? (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-center py-32"
           >
-            <div className="text-6xl mb-6">🔍</div>
+            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-400">
+              <Search className="h-10 w-10" />
+            </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">No matching notes</h3>
             <p className="text-gray-500">Try searching for something else or clear the search.</p>
           </motion.div>
         ) : (
-          <motion.div 
+          <motion.div
             layout
             className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-6"
           >

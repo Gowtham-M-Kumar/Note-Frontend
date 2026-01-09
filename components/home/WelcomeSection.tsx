@@ -24,7 +24,7 @@ export default function WelcomeSection() {
                     Overview
                 </div>
                 <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight tracking-tight mb-4">
-                    Welcome back, <span className="text-blue-600">{user?.username || 'Notes User'}</span> 👋
+                    Welcome back, <span className="text-blue-600">{user?.username || 'Notes User'}</span>
                 </h1>
                 <p className="text-xl text-gray-500 max-w-2xl font-medium leading-relaxed">
                     Capture your thoughts, organize your ideas, and keep your history safe. What would you like to record today?
