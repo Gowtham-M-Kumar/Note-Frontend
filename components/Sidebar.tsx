@@ -112,11 +112,12 @@ export default function Sidebar({ onCreateNote }: SidebarProps) {
           target="_blank"
           rel="noopener noreferrer"
           title="API Documentation"
-          className="w-12 h-12 flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-blue-600 transition-all group relative mb-4"
+          className="w-12 h-12 flex items-center justify-center rounded-full bg-slate-50 border border-slate-200 text-slate-500 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 hover:shadow-md transition-all duration-300 group relative mb-6"
         >
           <Code2 className="h-5 w-5" />
-          <span className="absolute left-16 bg-black text-white px-2 py-1 rounded text-[10px] font-bold opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50">
+          <span className="absolute left-16 bg-black text-white px-3 py-1.5 rounded-md text-[11px] font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap shadow-xl z-50">
             View backend API documentation
+            <div className="absolute left-[-4px] top-1/2 -translate-y-1/2 w-2 h-2 bg-black rotate-45" />
           </span>
         </a>
       </div>
