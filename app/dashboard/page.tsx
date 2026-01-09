@@ -10,6 +10,8 @@ import { motion } from 'framer-motion';
 import { Plus, Clock, FileText, LayoutGrid } from 'lucide-react';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default function DashboardHome() {
     const [hasNotes, setHasNotes] = useState<boolean | null>(null);
 
@@ -30,8 +32,6 @@ export default function DashboardHome() {
     const handleCreateNote = () => {
         window.dispatchEvent(new CustomEvent('open-create-note-modal'));
     };
-
-    if (hasNotes === null) return null; // Or a big loader
 
     return (
         <div className="p-8 md:p-12 lg:p-16 max-w-7xl mx-auto space-y-12">
