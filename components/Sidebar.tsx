@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, FileText, User, LogOut, Plus, Search } from 'lucide-react';
+import { Home, FileText, User, LogOut, Plus, Search, Code2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 
@@ -104,6 +104,21 @@ export default function Sidebar({ onCreateNote }: SidebarProps) {
             Logout
           </span>
         </button>
+
+        <div className="h-px w-8 bg-gray-100 my-2 mx-auto" />
+
+        <a
+          href="https://notes-fast-api.onrender.com/docs"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="API Documentation"
+          className="w-12 h-12 flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-blue-600 transition-all group relative mb-4"
+        >
+          <Code2 className="h-5 w-5" />
+          <span className="absolute left-16 bg-black text-white px-2 py-1 rounded text-[10px] font-bold opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50">
+            View backend API documentation
+          </span>
+        </a>
       </div>
     </aside>
   );
