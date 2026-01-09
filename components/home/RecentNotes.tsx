@@ -14,6 +14,15 @@ export default function RecentNotes() {
 
     useEffect(() => {
         loadRecentNotes();
+
+        const handleNoteCreated = () => {
+            loadRecentNotes();
+        };
+
+        window.addEventListener('note-created', handleNoteCreated);
+        return () => {
+            window.removeEventListener('note-created', handleNoteCreated);
+        };
     }, []);
 
     const loadRecentNotes = async () => {

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Sidebar from '@/components/Sidebar';
+import CreateNoteModal from '@/components/CreateNoteModal';
 
 export default function DashboardLayout({
   children,
@@ -36,6 +37,7 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen bg-[#f9fafb] flex">
       <Sidebar />
+      <CreateNoteModal />
       <main className="flex-1 ml-20">
         {children}
       </main>

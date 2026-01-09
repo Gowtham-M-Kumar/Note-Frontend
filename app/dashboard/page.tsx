@@ -16,6 +16,15 @@ export default function DashboardHome() {
 
     useEffect(() => {
         checkNotes();
+
+        const handleNoteCreated = () => {
+            checkNotes();
+        };
+
+        window.addEventListener('note-created', handleNoteCreated);
+        return () => {
+            window.removeEventListener('note-created', handleNoteCreated);
+        };
     }, []);
 
     const checkNotes = async () => {

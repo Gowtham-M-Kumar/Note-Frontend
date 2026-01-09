@@ -61,12 +61,13 @@ export default function NotesPage() {
       loadNotes();
     }, 0);
 
-    const handleOpenModal = () => setIsDialogOpen(true);
-    window.addEventListener('open-create-note-modal', handleOpenModal);
+    const handleNoteCreated = () => loadNotes();
+
+    window.addEventListener('note-created', handleNoteCreated);
 
     return () => {
       clearTimeout(timer);
-      window.removeEventListener('open-create-note-modal', handleOpenModal);
+      window.removeEventListener('note-created', handleNoteCreated);
     };
   }, []);
 
@@ -192,7 +193,7 @@ export default function NotesPage() {
               Click the "Create Note" button in the sidebar to start capturing your ideas.
             </p>
             <Button
-              onClick={() => setIsDialogOpen(true)}
+              onClick={() => window.dispatchEvent(new CustomEvent('open-create-note-modal'))}
               size="lg"
               className="bg-blue-600 hover:bg-blue-700 text-white rounded-2xl px-10 h-14 text-lg font-bold shadow-2xl shadow-blue-500/20 transition-all hover:scale-105 active:scale-95"
             >
@@ -284,50 +285,7 @@ export default function NotesPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Create Note Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[420px] rounded-xl p-5 border-none shadow-lg">
-          <DialogHeader className="mb-3">
-            <DialogTitle className="text-xl font-bold">Quick Note</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-            <div className="space-y-1.5">
-              <Input
-                id="title"
-                placeholder="Title..."
-                className="h-10 rounded-lg text-sm"
-                {...register('title')}
-                disabled={isSubmitting}
-              />
-              {errors.title && (
-                <p className="text-xs text-destructive">{errors.title.message}</p>
-              )}
-            </div>
-            <div className="space-y-1.5">
-              <Textarea
-                id="content"
-                placeholder="What's on your mind?"
-                rows={4}
-                className="resize-none rounded-lg text-sm p-3"
-                {...register('content')}
-                disabled={isSubmitting}
-              />
-              {errors.content && (
-                <p className="text-xs text-destructive">{errors.content.message}</p>
-              )}
-            </div>
-            <DialogFooter className="pt-2">
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full h-10 text-sm font-semibold rounded-lg bg-blue-600 hover:bg-blue-700"
-              >
-                {isSubmitting ? 'Creating...' : 'Create Note'}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
